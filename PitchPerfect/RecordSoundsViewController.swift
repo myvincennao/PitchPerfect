@@ -31,9 +31,11 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     @IBAction func recordAudio(_ sender: Any) {
         print ("Record Button was pressed")
-        recordingLabel.text = "Recording in Progress"
-        stopRecordingButton.isEnabled = true
-        recordButton.isEnabled = false
+        
+        configueUI(true)
+        //recordingLabel.text = "Recording in Progress"
+        //stopRecordingButton.isEnabled = true
+        //recordButton.isEnabled = false
         
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory,.userDomainMask, true)[0] as String // The place to store the audio recording. Used to get the directory path. documentDirectory grabs the app documentDirectory and stores it as a String in ths dirPath constant
         let recordingName = "recordedVoice.wav"
@@ -55,9 +57,11 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
     
     @IBAction func stopRecording(_ sender: Any) {
         print ("Stop Recording buttom was pressed")
-        stopRecordingButton.isEnabled = false
-        recordButton.isEnabled = true
-        recordingLabel.text = "Tap to Record"
+        
+        configueUI(false)
+        //stopRecordingButton.isEnabled = false
+        //recordButton.isEnabled = true
+        //recordingLabel.text = "Tap to Record"
         
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
@@ -81,5 +85,10 @@ class RecordSoundsViewController: UIViewController, AVAudioRecorderDelegate {
             playSoundsVC.recordedAudioURL = recordedAudioURL
         }
     }
+    
+    func configueUI(_ isRecording: Bool) {
+                stopRecordingButton.isEnabled = isRecording
+                recordButton.isEnabled = !isRecording
+                recordingLabel.text = isRecording ? "Recording ..." : "Tap To Record"
+    }
 }
-
